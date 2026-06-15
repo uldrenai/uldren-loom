@@ -30,7 +30,7 @@ jobs:
         run: ./scripts/sync-binding-versions.sh
         shell: bash
         working-directory: ${{ github.workspace }}
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
       - uses: dtolnay/rust-toolchain@stable
