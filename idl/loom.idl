@@ -1,0 +1,124 @@
+// Uldren Loom interface definition.
+//
+// The language-neutral definition of the Loom interface. Bindings (Node, JVM, C/C++, WASM) and the
+// wire projections (gRPC, REST, JSON-RPC) are generated from this file so they never drift.
+//
+// Built-in generics used below: list<T> (ordered sequence), optional<T> (nullable),
+// stream<T> (asynchronous sequence). Scalars: bool i32 i64 u32 u64 f64 string bytes Timestamp Uuid.
+
+struct Digest {
+    string text; // "algo:hex", e.g. "blake3:af1349b9..."
+}
+
+struct Identity {
+    string name;
+    string id;          // email or key id
+    Timestamp timestamp;
+}
+
+enum NodeKind {
+    TREE,
+    FILE,
+    SYMLINK,
+    SUBLOOM,
+    TABLE,
+}
+
+enum ChangeKind {
+    ADDED,
+    MODIFIED,
+    DELETED,
+    RENAMED,
+}
+
+struct Stat {
+    string path;
+    NodeKind kind;
+    u64 size;
+    Digest digest;
+    u32 mode;
+    bool executable;
+}
+
+struct Object {
+    Digest digest;
+    u32 object_type;    // 1=Blob 2=ChunkList 3=Tree 4=Commit 5=Tag
+    bytes canonical;    // canonical serialized form
+}
+
+struct Change {
+    string path;
+    ChangeKind kind;
+    optional Digest old;
+    optional Digest new;
+}
+
+struct Status {
+    list<Change> staged;
+    list<Change> unstaged;
+    list<string> untracked;
+    list<string> conflicts;
+}
+
+struct Commit {
+    Digest digest;
+    Digest tree;
+    list<Digest> parents;
+    Identity author;
+    string message;
+}
+
+struct Diff {
+    list<Change> changes;
+}
+
+struct Conflict {
+    string path;
+    optional Digest base;
+    optional Digest ours;
+    optional Digest theirs;
+}
+
+struct MergeResult {
+    optional Digest commit;
+    bool fast_forwarded;
+    list<Conflict> conflicts;
+}
+
+// ---- filesystem ----
+interface FileSystem {
+    bytes read_file(string path);
+    Stat write_file(string path, bytes content);
+    Stat create_file(string path, bytes content);
+    void delete_file(string path);
+    void create_directory(string path, bool recursive);
+    void remove_directory(string path, bool recursive);
+    list<Stat> read_directory(string path);
+    Stat stat(string path);
+    bool exists(string path);
+    void move(string src, string dst, bool overwrite);
+    void copy(string src, string dst, bool overwrite);
+}
+
+// ---- version control ----
+interface VersionControl {
+    Digest commit(string message);
+    Status status();
+    void branch_create(string name, optional Digest at);
+    list<string> branch_list();
+    void checkout(string rev);
+    MergeResult merge(string source);
+    Digest rebase(string upstream);
+    Digest squash(string from, string to, string message);
+    void tag_create(string name, string rev);
+    stream<Commit> log();
+    Diff diff(string from, string to);
+}
+
+// ---- objects ----
+interface Objects {
+    Digest write_object(Object object);
+    Object read_object(Digest digest);
+    bytes read_blob(Digest digest);
+    bool has_object(Digest digest);
+}

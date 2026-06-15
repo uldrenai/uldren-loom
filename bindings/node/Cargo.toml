@@ -1,0 +1,22 @@
+[package]
+authors = ["Uldren Technologies LLC"]
+description = "Node.js binding for Uldren Loom (napi-rs). Published as @uldrenai/loom."
+edition = "2021"
+license = "BUSL-1.1"
+name = "loom-node"
+publish = false
+version = "0.0.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+loom-core = { path = "../../crates/loom-core" }
+napi = { version = "2", default-features = false, features = ["napi8"] }
+napi-derive = "2"
+
+[build-dependencies]
+napi-build = "2"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }

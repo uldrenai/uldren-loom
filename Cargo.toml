@@ -1,0 +1,49 @@
+# Uldren Loom - Cargo workspace root.
+# Licensed under BUSL-1.1 (see ./LICENSE). © Uldren Technologies LLC.
+[workspace]
+resolver = "2"
+members = [
+    "crates/loom-core",
+    "crates/loom-cli",
+    "crates/loom-ffi",
+    "crates/loom-conformance",
+]
+# Language bindings build with their own toolchains (napi-rs, wasm-pack, Gradle/FFM, CMake), so
+# they are excluded from the default `cargo build --workspace`. See bindings/*/README.md.
+exclude = [
+    "bindings/cpp",
+    "bindings/jvm",
+    "bindings/node",
+    "bindings/wasm",
+]
+
+[workspace.package]
+authors = ["Uldren Technologies LLC"]
+description = "Uldren Loom - a universal, content-addressed, versioned filesystem."
+edition = "2021"
+homepage = "https://uldren.com"
+license = "BUSL-1.1"
+repository = "https://github.com/uldrenai/uldren-loom"
+rust-version = "1.85"
+version = "0.0.0"
+
+[workspace.dependencies]
+# Core engine deps (all permissive; enforced by deny.toml).
+blake3 = "1"
+clap = { version = "4", features = ["derive"] }
+hex = "0.4"
+loom-core = { path = "crates/loom-core", version = "0.0.0" }
+thiserror = "2"
+
+# Pin lints once, share across crates.
+[workspace.lints.rust]
+unsafe_code = "forbid" # overridden to "allow" in loom-ffi (the only crate that needs FFI)
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+
+# Faster, smaller release artifacts (libraries shipped into other languages).
+[profile.release]
+codegen-units = 1
+lto = "thin"
+strip = true

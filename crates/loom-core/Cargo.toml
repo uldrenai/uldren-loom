@@ -1,0 +1,17 @@
+[package]
+authors.workspace = true
+description = "Uldren Loom core engine: content-addressed object model and provider contract."
+edition.workspace = true
+license.workspace = true
+name = "loom-core"
+repository.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+blake3.workspace = true
+hex.workspace = true
+thiserror.workspace = true
