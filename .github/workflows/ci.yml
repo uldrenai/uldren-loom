@@ -61,7 +61,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
-      - uses: mlugg/setup-zig@v1
+      - uses: mlugg/setup-zig@v2
       - run: cargo install cargo-zigbuild --locked
       - run: rustup target add x86_64-unknown-linux-musl aarch64-unknown-linux-musl
       - run: cargo zigbuild --workspace --target x86_64-unknown-linux-musl --target aarch64-unknown-linux-musl
