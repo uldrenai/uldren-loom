@@ -26,6 +26,6 @@
     "test": "node -e \"const l=require('./index.js'); console.log(l.version(), l.blobDigest(Buffer.from('abc')))\""
   },
   "devDependencies": {
-    "@napi-rs/cli": "^2.18.0"
+    "@napi-rs/cli": "^3.7.2"
   }
 }
