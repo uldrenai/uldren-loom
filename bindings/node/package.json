@@ -1,0 +1,31 @@
+{
+  "name": "@uldrenai/loom",
+  "version": "0.0.0",
+  "description": "Node.js binding for Uldren Loom - a universal, content-addressed, versioned filesystem.",
+  "license": "BUSL-1.1",
+  "author": "Uldren Technologies LLC",
+  "repository": "https://github.com/uldrenai/uldren-loom",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "napi": {
+    "name": "loom",
+    "triples": {
+      "defaults": true,
+      "additional": [
+        "aarch64-apple-darwin",
+        "aarch64-unknown-linux-gnu",
+        "x86_64-unknown-linux-musl",
+        "aarch64-unknown-linux-musl"
+      ]
+    }
+  },
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "napi build --platform --release",
+    "build:debug": "napi build --platform",
+    "test": "node -e \"const l=require('./index.js'); console.log(l.version(), l.blobDigest(Buffer.from('abc')))\""
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "^2.18.0"
+  }
+}

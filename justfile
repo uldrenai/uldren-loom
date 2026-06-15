@@ -63,6 +63,10 @@ header-check:
     cbindgen --config crates/loom-ffi/cbindgen.toml --crate loom-ffi --output /tmp/loom.h.gen
     diff -u include/loom.h /tmp/loom.h.gen && echo "header up to date"
 
+# Sync binding manifest versions to the workspace version (single source of truth).
+sync-versions:
+    ./scripts/sync-binding-versions.sh
+
 # --- bindings (need their own toolchains) ----------------------------------
 # Build the Node addon (@uldrenai/loom) with pnpm.
 node:
@@ -84,8 +88,8 @@ ci: fmt lint test deny
 
 # Requires cbindgen + cargo-deny + cargo-audit (see docs/DEVELOPMENT.md §3).
 # Full local "do everything": format, regen C header, lint, test, release build, deny + audit.
-all: fmt-fix header lint build-release test deny audit
-    @echo "all: format + header + lint + release build + test + deny + audit  ✔"
+all: fmt-fix header sync-versions lint build-release test deny audit
+    @echo "all: format + header + sync-versions + lint + release build + test + deny + audit  ✔"
 
 # Build every language binding (each needs its own toolchain; see bindings/*/README.md).
 bindings-all: node wasm cpp jvm

@@ -52,13 +52,14 @@ Key recipes (run `just` to list all):
 - `just ci` - the gate that mirrors GitHub CI: `fmt` check, `clippy -D warnings`, `test`, and
   `cargo deny`. It does not mutate files. Run it before pushing.
 - `just all` - the full local "do everything": `fmt-fix`, `header` (regenerate `include/loom.h`),
-  `lint`, `build-release` (optimized artifacts), `test`, `deny`, `audit`. It deliberately does not
+  `sync-versions` (propagate the workspace version into the binding manifests), `lint`,
+  `build-release` (optimized artifacts), `test`, `deny`, `audit`. It deliberately does not
   also run `check`, `build`, `ffi`, or `header-check`, because those are subsumed: `build-release`
   builds the whole workspace including `loom-ffi`, and `header` regenerates the header that
   `header-check` would only verify.
 - Granular: `just build`, `just build-release`, `just check`, `just test`, `just lint`,
   `just fmt-fix`, `just deny`, `just audit`, `just semver`, `just ffi`, `just header`,
-  `just header-check`.
+  `just header-check`, `just sync-versions`.
 - Bindings: `just node`, `just wasm`, `just jvm`, `just cpp`, or `just bindings-all`.
 
 ## 4. Cross-compilation of the Rust workspace (`loom-core`, `loom-cli`, `loom-ffi`)

@@ -1,0 +1,21 @@
+[package]
+authors.workspace = true
+description = "Uldren Loom command-line tool (installs as the `loom` binary)."
+edition.workspace = true
+license.workspace = true
+name = "loom-cli"
+repository.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+# The crate is `loom-cli` but the installed binary is `loom`.
+[[bin]]
+name = "loom"
+path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+clap.workspace = true
+loom-core.workspace = true

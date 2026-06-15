@@ -1,0 +1,21 @@
+[package]
+authors.workspace = true
+description = "C ABI for Uldren Loom (cdylib + staticlib); the contract every language binding wraps."
+edition.workspace = true
+license.workspace = true
+name = "loom-ffi"
+repository.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+name = "uldren_loom"
+
+# This crate intentionally does NOT inherit the workspace `unsafe_code = forbid` lint, because the
+# C ABI requires `unsafe`. It restates the clippy config so the rest of the workspace policy holds.
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+
+[dependencies]
+loom-core.workspace = true
