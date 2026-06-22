@@ -25,7 +25,7 @@ jobs:
           - { os: ubuntu-latest, target: x86_64-unknown-linux-gnu }
           - { os: windows-latest, target: x86_64-pc-windows-msvc }
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Sync binding version
         run: ./scripts/sync-binding-versions.sh
         shell: bash
@@ -47,7 +47,7 @@ jobs:
       run:
         working-directory: bindings/wasm
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Sync binding version
         run: ./scripts/sync-binding-versions.sh
         shell: bash
@@ -60,7 +60,7 @@ jobs:
     name: jvm (FFM, JDK 22)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Sync binding version
         run: ./scripts/sync-binding-versions.sh
         shell: bash
@@ -79,7 +79,7 @@ jobs:
     name: swift (SwiftPM)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Sync binding version
         run: ./scripts/sync-binding-versions.sh
         shell: bash
@@ -95,7 +95,7 @@ jobs:
     name: kotlin (jvm compile)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Sync binding version
         run: ./scripts/sync-binding-versions.sh
         shell: bash
@@ -114,7 +114,7 @@ jobs:
     name: react-native (install)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Sync binding version
         run: ./scripts/sync-binding-versions.sh
         shell: bash
